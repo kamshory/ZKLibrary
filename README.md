@@ -4,6 +4,8 @@ This library is implemented in the form of class. So that you can create an obje
 
 ## Example
 
+<?php
+
 include "zklibrary.php";
 
 $zk = new ZKLibrary('192.168.1.102', 4370);
@@ -17,3 +19,5 @@ $zk->testSound();
 $zk->enableDevice();
 
 $zk->disconnect();
+
+?>
