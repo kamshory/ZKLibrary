@@ -14,7 +14,7 @@ $zk->connect();
 
 $zk->disableDevice();
 
-$zk->testSound();
+$zk->testVoice();
 
 $zk->enableDevice();
 
