@@ -900,7 +900,7 @@ class ZKLibrary {
 		} 
 		catch(exception $e) 
 		{
-			return False;
+			return false;
 		}
 	}
 	public function clearAttendance() 
