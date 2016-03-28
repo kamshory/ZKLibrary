@@ -6,7 +6,7 @@ $zk->disableDevice();
 
 $users = $zk->getUser();
 ?>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table width="100%" border="1" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
 <thead>
   <tr>
     <td width="25">No</td>
