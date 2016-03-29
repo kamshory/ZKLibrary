@@ -55,11 +55,11 @@ Function to make connection to the device. If ip address and port is not defined
 ### Parameters
 $ip
 
-ip address of device
+IP address of the device
 
 $port
 
-UDP port of device
+UDP port of the device
 
 ```php
 disconnect()
