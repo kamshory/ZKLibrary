@@ -39,9 +39,13 @@ __construct([$ip[, $port]])
 ```
 Object constructor
 ### Parameter
-$ip is ip address of device
+$ip 
 
-$port is UDP port of device
+IP address of device
+
+$port 
+
+UDP port of device
 
 ```php
 __destruct()
