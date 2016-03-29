@@ -53,9 +53,13 @@ connect([$ip[, $port]])
 ```
 Function to make connection to the device. If ip address and port is not defined yet, this function must take it. Else, this function return FALSE and does not make any connection.
 ### Parameters
-$ip is ip address of device
+$ip
 
-$port is UDP port of device
+ip address of device
+
+$port
+
+UDP port of device
 
 ```php
 disconnect()
@@ -66,7 +70,13 @@ setTimeout([$sec[, $usec]])
 ```
 Set timeout for socket connection.
 ### Parameters
+$sec
 
+Timeout in second
+
+$usec
+
+Timeout in micro second
 ```php
 reverseHex($input)
 ```
@@ -75,27 +85,71 @@ Reverse hexadecimal digits.
 encodeTime($time)
 ```
 Encode time to binary data.
+### Paramaters
+$time
+
+String time in format YYYY-MM-DD HH:II:SS
+
 ```php
 decodeTime($data)
 ```
 Decode binary data to time
+### Parameters
+$data
+
+Binary data from device 
 ```php
 checkSum($p)
 ```
 This function calculates the chksum of the packet to be sent to the time clock.
+### Parameters
+$p
+
+Packet to be checked.
 ```php
 createHeader($command, $chksum, $session_id, $reply_id, $command_string)
 ```
-Create data headerto be sent to the device
+Create data headerto be sent to the device.
 ### Parameters
+$command
+
+Command to the device in integer.
+
+$checksum
+
+Checksum of packet.
+
+$session_id
+
+Session ID of the connection.
+
+$command_string
+
+Data to be sent to the device.
 ```php
 checkValid($reply)
 ```
-Check wether reply is valid or not
+Check wether reply is valid or not.
+### Parameters
+$reply
+
+Reply data to be checked.
 ```php
 execCommand($command, $command_string = '', $offset_data = 8)
 ```
 Send command and data packet to the device and receive some data if any.
+### Parameters
+$command
+
+Command to the device in integer.
+
+$command_string
+
+Data to be sent to the device.
+
+$offset_data
+
+Offset data to be returned. The default offset is 8.
 ```php
 getSizeUser()
 ```
@@ -124,11 +178,24 @@ Resume the device.
 changeSpeed($speed = 0)
 ```
 Change transfer speed of the device. 0 = slower. 1 = faster.
+### Parameters
+$speed
+
+Transfer speed of packet when the device comunicate to other device, i.e server.
+
+Note: some device may be not supported fast speed.
 ```php
 writeLCD($rank, $text)
 ```
-Write text on LCD.
+Write text on LCD. This order transmit character to demonstrate on LCD , the data part 1, 2 bytes of the packet transmit the rank value which start to demonstrate, the 3rd byte setting is 0 , follows close the filling character which want to be transmit. May work in CMD_CLEAR_LCD when use this function.
 ### Parameters
+$rank
+
+Line number
+
+$text
+
+Text to be demonstrated to LCD of the device.
 ```php
 clearLCD()
 ```
