@@ -37,20 +37,20 @@ Unsigned Long timeout_usec;
 ```php
 __construct([$ip[, $port]])
 ```
-Object constructor
+Object constructor.
 ### Parameter
 $ip 
 
-IP address of device
+IP address of device.
 
 $port 
 
-UDP port of device
+UDP port of device.
 
 ```php
 __destruct()
 ```
-Object destructor
+Object destructor.
 
 ```php
 connect([$ip[, $port]])
@@ -59,11 +59,11 @@ Function to make connection to the device. If ip address and port is not defined
 ### Parameters
 $ip
 
-IP address of the device
+IP address of the device.
 
 $port
 
-UDP port of the device
+UDP port of the device.
 
 ```php
 disconnect()
@@ -76,11 +76,11 @@ Set timeout for socket connection.
 ### Parameters
 $sec
 
-Timeout in second
+Timeout in second.
 
 $usec
 
-Timeout in micro second
+Timeout in micro second.
 ```php
 reverseHex($input)
 ```
@@ -97,11 +97,11 @@ String time in format YYYY-MM-DD HH:II:SS
 ```php
 decodeTime($data)
 ```
-Decode binary data to time
+Decode binary data to time.
 ### Parameters
 $data
 
-Binary data from device 
+Binary data from device. 
 ```php
 checkSum($p)
 ```
@@ -195,7 +195,7 @@ Write text on LCD. This order transmit character to demonstrate on LCD , the dat
 ### Parameters
 $rank
 
-Line number
+Line number.
 
 $text
 
@@ -227,7 +227,7 @@ Set OS version
 ### Parameters
 $osVertion
 
-Version of operating version
+Version of operating version.
 ```php
 getPlatform($net = true)
 ```
@@ -238,7 +238,7 @@ If net set to true, function will return netto data without parameter name.
 ```php
 setPlatform($patform)
 ```
-Set platform
+Set platform.
 ### Parameters
 $platform
 
@@ -353,6 +353,7 @@ setDeviceName($deviceName)
 Set device name.
 ### Parameters
 $deviceName
+
 The device name.
 ```php
 getTime()
@@ -392,10 +393,10 @@ getUser return array 2 dimension. The key of array is serial number of user. The
 setUser($uid, $userid, $name, $password, $role)
 ```
 Write user to the device.
-###Parameters
+### Parameters
 $uid
 
-Serial number of the user. This is the unsigned short number (2 bytes)
+Serial number of the user. This is the unsigned short number (2 bytes).
 
 $userid
 
@@ -403,7 +404,7 @@ User ID of the application. The maximum length of $userid is 8 characters contai
 
 $name
 
-User name. The maximum length of $name is 28 characters nontaining alpha numeic and some (not all) punctuation
+User name. The maximum length of $name is 28 characters nontaining alpha numeic and some (not all) punctuation.
 
 $role
 
@@ -422,10 +423,10 @@ Delete all user from the device.
 deleteUser($uid)
 ```
 Delete some user from the device.
-#Parameters
+### Parameters
 $uid
 
-Serial number of the user (2 bytes)
+Serial number of the user (2 bytes).
 ```php
 deleteUserTemp($uid, $finger)
 ```
@@ -434,11 +435,11 @@ Delete finger template of the user.
 Parameters
 $uid
 
-Serial number of the user (2 bytes)
+Serial number of the user (2 bytes).
 
 $finger
 
-The number of finger (0-9)
+The number of finger (0-9).
 ```php
 clearAdmin()
 ```
@@ -448,7 +449,7 @@ getAttendance()
 ```
 Retrieve the attendance log.
 ### Return Value
-getAttendance return array 2 dimension. The value of array is array containing
+getAttendance return array 2 dimension. The value of array is array containing.
 * serial number of the user
 * user id of the application
 * state
