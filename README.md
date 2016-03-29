@@ -379,17 +379,23 @@ getUser()
 ```
 Retrive the user list from the device.
 ### Return Value
-getUser return array 2 dimension. The key of array is serial number of user. The value of array is array containing: id, name, role, password.
+getUser return array 2 dimension. The key of array is serial number of user. The value of array is array containing: 
+* serial number of the user
+* user name
+* user role
+* user password
+```php
 setUser($uid, $userid, $name, $password, $role)
+```
 Write user to the device.
 ###Parameters
 $uid
 
-Serial number of user. This is the unsigned short number (2 bytes)
+Serial number of the user. This is the unsigned short number (2 bytes)
 
 $userid
 
-User ID used by the application. The maximum length of $userid is 8 characters containing numeric whithout zero on the beginning.
+User ID of the application. The maximum length of $userid is 8 characters containing numeric whithout zero on the beginning.
 
 $name
 
@@ -439,6 +445,10 @@ getAttendance()
 Retrieve the attendance log.
 ### Return Value
 getAttendance return array 2 dimension. The value of array is array containing
+* serial number of the user
+* user id of the application
+* state
+* time of attendance in format YYYY-MM-DD HH:II:SS
 ```php
 clearAttendance()
 ```
