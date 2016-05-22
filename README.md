@@ -38,7 +38,7 @@ Unsigned Long timeout_usec;
 __construct([$ip[, $port]])
 ```
 Object constructor.
-### Parameter
+### Parameters
 $ip 
 
 IP address of device.
