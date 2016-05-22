@@ -113,7 +113,7 @@ Packet to be checked.
 ```php
 createHeader($command, $chksum, $session_id, $reply_id, $command_string)
 ```
-Create data headerto be sent to the device.
+Create data header to be sent to the device.
 ### Parameters
 $command
 
