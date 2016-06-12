@@ -225,7 +225,7 @@ setOSVersion($osVersion)
 ```
 Set OS version
 ### Parameters
-$osVertion
+$osVersion
 
 Version of operating version.
 ```php
