@@ -55,7 +55,7 @@ Object destructor.
 ```php
 connect([$ip[, $port]])
 ```
-Function to make connection to the device. If ip address and port is not defined yet, this function must take it. Else, this function return FALSE and does not make any connection.
+Function to make connection to the device. If IP address and port is not defined yet, this function must take it. Else, this function return FALSE and does not make any connection.
 ### Parameters
 $ip
 
@@ -191,7 +191,7 @@ Note: some device may be not supported fast speed.
 ```php
 writeLCD($rank, $text)
 ```
-Write text on LCD. This order transmit character to demonstrate on LCD , the data part 1, 2 bytes of the packet transmit the rank value which start to demonstrate, the 3rd byte setting is 0 , follows close the filling character which want to be transmit. May work in CMD_CLEAR_LCD when use this function.
+Write text on LCD. This order transmit character to demonstrate on LCD, the data part 1, 2 bytes of the packet transmit the rank value which start to demonstrate, the 3rd byte setting is 0 , follows close the filling character which want to be transmit. May work in CMD_CLEAR_LCD when use this function.
 ### Parameters
 $rank
 
@@ -404,7 +404,7 @@ User ID of the application. The maximum length of $userid is 8 characters contai
 
 $name
 
-User name. The maximum length of $name is 28 characters nontaining alpha numeic and some (not all) punctuation.
+User name. The maximum length of $name is 28 characters containing alpha numeic and some (not all) punctuation.
 
 $role
 
@@ -430,7 +430,7 @@ Serial number of the user (2 bytes).
 ```php
 deleteUserTemp($uid, $finger)
 ```
-Delete finger template of the user.
+Delete finger template of the user from the device.
 ###
 Parameters
 $uid
@@ -457,4 +457,4 @@ getAttendance return array 2 dimension. The value of array is array containing.
 ```php
 clearAttendance()
 ```
-Delete all attendance log.
+Delete all attendance log from the device.
