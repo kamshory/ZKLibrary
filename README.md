@@ -171,9 +171,9 @@ Offset data to be returned. The default offset is 8.
 ```php
 getSizeUser()
 ```
+Get number of user.
 ### Return Value
 Number of registered user in the devive.
-Get number of user.
 ```php
 getSizeAttendance()
 ```
