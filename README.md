@@ -55,7 +55,7 @@ Object destructor.
 ```php
 connect([$ip[, $port]])
 ```
-Function to make connection to the device. If IP address and port is not defined yet, this function must take it. Else, this function return FALSE and does not make any connection.
+Function to make a connection to the device. If IP address and port is not defined yet, this function must take it. Else, this function return FALSE and does not make any connection.
 ### Parameters
 $ip
 
@@ -68,7 +68,7 @@ UDP port of the device.
 ```php
 disconnect()
 ```
-Function to disconnect to the device. If ip address and port is not defined yet, this function must take it. Else, this function return FALSE and does not make any changes.
+Function to disconnect from the device. If ip address and port is not defined yet, this function must take it. Else, this function return FALSE and does not make any changes.
 ```php
 setTimeout([$sec[, $usec]])
 ```
@@ -408,7 +408,7 @@ User name. The maximum length of $name is 28 characters containing alpha numeic 
 
 $role
 
-The role of user. The length of $role is 1 byte. Possible value of $role is:
+The role of user. The length of $role is 1 byte. Possible value of $role are:
 ```
 0 = LEVEL_USER
 2 = LEVEL_ENROLLER
