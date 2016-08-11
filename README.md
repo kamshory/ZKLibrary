@@ -93,6 +93,8 @@ Encode time to binary data.
 $time
 
 String time in format YYYY-MM-DD HH:II:SS
+### Return Value
+Encoded time in binary format.
 
 ```php
 decodeTime($data)
@@ -102,6 +104,9 @@ Decode binary data to time.
 $data
 
 Binary data from device. 
+### Return Value
+Dedoded time in string format.
+
 ```php
 checkSum($p)
 ```
@@ -118,9 +123,12 @@ Create data header to be sent to the device.
 $command
 
 Command to the device in integer.
+### Return Value
+Data header in binary format.
 
+```php
 $checksum
-
+```
 Checksum of packet.
 
 $session_id
@@ -130,6 +138,8 @@ Session ID of the connection.
 $command_string
 
 Data to be sent to the device.
+### Return Value
+Sum of data to be checked.
 ```php
 checkValid($reply)
 ```
@@ -157,11 +167,15 @@ Offset data to be returned. The default offset is 8.
 ```php
 getSizeUser()
 ```
+### Return Value
+Number of registered user in the devive.
 Get number of user.
 ```php
 getSizeAttendance()
 ```
 Get number of attendance log.
+### Return Value
+Number of attendance recorded in the device.
 ```php
 restartDevice()
 ```
@@ -212,6 +226,8 @@ Test voice of the device.
 getVersion()
 ```
 Get device version.
+### Return Value
+Version of the device in string format.
 ```php
 getOSVersion($net = true)
 ```
