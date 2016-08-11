@@ -2,6 +2,10 @@
 ZKLibrary is PHP library for reading and writing data to attendance device using UDP protocol. This library is useful to comunicate between web server and attendance device directly without any addition program.
 This library is implemented in the form of class. So that you can create an object and use it functions.
 
+Web server must be connected to the attendance device via Local Area Network (LAN). The UDP port that is used in this communication is 4370. You can not change this port without changing firmware of the attendance device. So, you just use it.
+
+The format of the data are: binary, string, and number. The length of the parameter and return value must be vary.
+
 ## Example
 ```php
 <?php
