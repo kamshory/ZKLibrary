@@ -436,9 +436,13 @@ The role of user. The length of $role is 1 byte. Possible value of $role are:
 14 = LEVEL_SUPERMANAGER
 ```
 ```php
+clearData()
+```
+Clear some kind of data, if do not assign the data type, then deletes all data, otherwise depending on the assigned type to delete data.
+```php
 clearUser()
 ```
-Delete all user from the device.
+Same with clearData.
 ```php
 deleteUser($uid)
 ```
