@@ -781,6 +781,11 @@ class ZKLibrary {
 		$command_string = $byte1.$byte2.chr($role).str_pad($password, 8, chr(0)).str_pad($name, 28, chr(0)).str_pad(chr(1), 9, chr(0)).str_pad($userid, 8, chr(0)).str_repeat(chr(0),16);
 		return $this->execCommand($command, $command_string);
 	}
+	public function clearData()
+	{
+		$command = CMD_CLEAR_DATA;
+		return $this->execCommand($command);
+	}
 	public function clearUser()
 	{
 		$command = CMD_CLEAR_DATA;
