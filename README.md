@@ -173,7 +173,7 @@ getSizeUser()
 ```
 Get number of user.
 ### Return Value
-Number of registered user in the devive.
+Number of registered user in the device.
 ```php
 getSizeAttendance()
 ```
