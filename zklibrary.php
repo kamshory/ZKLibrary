@@ -913,30 +913,6 @@ class ZKLibrary {
 		$command = CMD_CLEAR_ATTLOG;
 		return $this->execCommand($command);
 	}
-	public function sendSMATALogo()
-	{
-$text = "
- #####  #       #     #    ##########    #    
-##    # ##     ##   ## ##  ##########  ## ##  
-##      ###   ###  ##   ##     ##     ##   ## 
- ####   ## # # ## ##     ##    ##    ##     ##
-   #### ##  #  ## #########    ##    #########
-     ## ##     ## ##     ##    ##    ##     ##
-#    ## ##     ## ##     ##    ##    ##     ##
- #####  ##     ## ##     ##    ##    ##     ##
-";
-		$text = str_replace("\n", "\r\n", $text);
-		$text = str_replace("\r\r\n", "\r\n", $text);
-		$arr = explode("\r\n", rtrim($text, "\r\n"));
-		$ret = $this->writelcd(1, ' ');
-		usleep(20000);
-		foreach($arr as $key=>$val)
-		{
-			$val = ($val);
-			$rank = $key+1;
-			$ret = $this->writelcd($rank, ' '.$val);
-			if($rank > 8) break;
-		}
-	}
+	
 }
 ?>
