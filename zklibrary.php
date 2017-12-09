@@ -346,6 +346,21 @@ class ZKLibrary {
 			return FALSE;
 		}
 	}
+	private function getSizeTemplate()
+	{
+		$u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6/H2h7/H2h8', substr($this->received_data, 0, 8)); 
+		$command = hexdec($u['h2'].$u['h1'] );
+		if($command == CMD_PREPARE_DATA)
+		{
+			$u = unpack('H2h1/H2h2/H2h3/H2h4', substr( $this->received_data, 8, 4));
+			$size = hexdec($u['h4'].$u['h3'].$u['h2'].$u['h1']);
+			return $size;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
 	public function restartDevice()
 	{
 		$command = CMD_RESTART;
@@ -674,7 +689,7 @@ class ZKLibrary {
 				$user_data = substr($user_data, 11);
 				while(strlen($user_data) > 72)
 				{
-					$u = unpack( 'H144', substr($user_data, 0, 72) );
+					$u = unpack('H144', substr($user_data, 0, 72));
 					$u1 = hexdec(substr($u[1], 2, 2));
 					$u2 = hexdec(substr($u[1], 4, 2));
 					$uid = $u1+($u2*256);                               // 2 byte
@@ -750,7 +765,7 @@ class ZKLibrary {
 					}
 					else
 					{
-						$retdata .= substr($this->user_data[$x], 14);
+						$retdata .= substr($this->user_data[$x], 12);
 					}
 				}
 			}
@@ -807,13 +822,85 @@ class ZKLibrary {
 		$command_string = $byte1.$byte2.chr($finger);
 		return $this->execCommand($command, $command_string);
 	}
+	public function getUserTemplateAll($uid)
+	{
+		$template = array();
+		$j = 0;
+		for($i = 5; $i<10; $i++, $j++)
+		{
+			$template[$j] = $this->getUserTemplate($uid, $i);
+		}
+		for($i = 4; $i>=0; $i--, $j++)
+		{
+			$template[$j] = $this->getUserTemplate($uid, $i);
+		}
+		return $template; 
+	}
 	public function getUserTemplate($uid, $finger)
 	{
+		$this->user_data = array();
 		$command = CMD_USERTEMP_RRQ;
 		$byte1 = chr((int)($uid % 256));
 		$byte2 = chr((int)($uid >> 8));
 		$command_string = $byte1.$byte2.chr($finger);
-		return $this->execCommand($command, $command_string);
+
+		$chksum = 0;
+		$session_id = $this->session_id;
+		$u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6/H2h7/H2h8', substr( $this->received_data, 0, 8) );
+		$reply_id = hexdec( $u['h8'].$u['h7'] );
+		$buf = $this->createHeader($command, $chksum, $session_id, $reply_id, $command_string);
+		socket_sendto($this->socket, $buf, strlen($buf), 0, $this->ip, $this->port);
+		try
+		{
+			socket_recvfrom($this->socket, $this->received_data, 1024, 0, $this->ip, $this->port);
+			$u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6', substr( $this->received_data, 0, 8 ) );
+			$bytes = $this->getSizeTemplate();
+			if($bytes)
+			{
+				while($bytes > 0)
+				{
+					socket_recvfrom($this->socket, $received_data, 1032, 0, $this->ip, $this->port);
+					array_push( $this->user_data, $received_data);
+					$bytes -= 1024;					
+				}
+				$this->session_id =  hexdec( $u['h6'].$u['h5'] );
+				socket_recvfrom($this->socket, $received_data, 1024, 0, $this->ip, $this->port);
+			}
+			$template_data = array();
+			if(count($this->user_data) > 0)
+			{
+				for($x=0; $x<count($this->user_data); $x++)
+				{
+					if ($x == 0)
+					{
+						$this->user_data[$x] = substr($this->user_data[$x], 8);
+					}
+					else
+					{
+						$this->user_data[$x] = substr($this->user_data[$x], 8);
+					}
+				}
+				$user_data = implode('', $this->user_data);
+				$template_size = strlen($user_data)+6;
+				$prefix = chr($template_size%256).chr(round($template_size/256)).$byte1.$byte2.chr($finger).chr(1);
+				$user_data = $prefix.substr($user_data, 0);
+				
+				if(strlen($user_data) > 6)
+				{
+					$valid = 1;
+					$template_data = array($template_size, $uid, $finger, $valid, $user_data);
+				}
+			}
+			return $template_data;
+		} 
+		catch(ErrorException $e) 
+		{
+			return FALSE;
+		} 
+		catch(exception $e) 
+		{
+			return FALSE;
+		}
 	}
 	public function clearAdmin()
 	{
