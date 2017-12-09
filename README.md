@@ -434,6 +434,44 @@ The role of user. The length of $role is 1 byte. Possible value of $role are:
 12 = LEVEL_MANAGER
 14 = LEVEL_SUPERMANAGER
 ```
+
+```php
+getUserTemplate($uid, $finger)
+```
+
+Get finger print data from the device.
+
+### Parametes
+
+$uid
+
+Serial number of the user (2 bytes)
+
+$finger
+
+The finger on which the template will be taken (0-9).
+
+### Return Value
+
+getUserTemplate will return an array contains:
+- length of template (2 bytes)
+- serial number of the user (2 bytes)
+- finger (1 byte, 0 to 9)
+- valid (1 byte)
+- template
+
+Template is binary data which the structure is shown bellow:
+
+```c
+typedef struct _Template_{ 
+    U16 Size;       // the length of fingerprint template 
+    U16 PIN;        // corresponds with the user data structure PIN
+    char FingerID;  // fingerprint 
+    char Valid;     // fingerprint is valid or invalid
+    char *Template; // fingerprint template 
+} TTemplate, *PTemplate; 
+```
+
 ```php
 clearData()
 ```
@@ -454,8 +492,7 @@ Serial number of the user (2 bytes).
 deleteUserTemp($uid, $finger)
 ```
 Delete finger template of the user from the device.
-###
-Parameters
+### Parameters
 $uid
 
 Serial number of the user (2 bytes).
