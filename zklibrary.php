@@ -22,6 +22,7 @@ define('CMD_DATA', 1501);
 
 define('CMD_USER_WRQ', 8);
 define('CMD_USERTEMP_RRQ', 9);
+define('CMD_USERTEMP_WRQ', 10);
 define('CMD_OPTIONS_RRQ', 11);
 define('CMD_OPTIONS_WRQ', 12);
 define('CMD_ATTLOG_RRQ', 13);
