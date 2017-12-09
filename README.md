@@ -436,6 +436,29 @@ The role of user. The length of $role is 1 byte. Possible value of $role are:
 ```
 
 ```php
+setUserTemplate($template)
+```
+
+Upload finger print template to the device.
+The precondition to successfully upload the fingerprint template which is, the user must exist, the user, whose the fingerprint will be uploaded, must be empty.
+
+### Parameter
+
+$template
+
+$template is binary data which the structure is shown bellow:
+
+```c
+typedef struct _Template_{ 
+    U16 Size;       // the length of fingerprint template 
+    U16 PIN;        // corresponds with the user data structure PIN
+    char FingerID;  // fingerprint 
+    char Valid;     // fingerprint is valid or invalid
+    char *Template; // fingerprint template 
+} TTemplate, *PTemplate; 
+```
+
+```php
 getUserTemplate($uid, $finger)
 ```
 
