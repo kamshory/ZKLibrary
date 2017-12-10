@@ -300,13 +300,13 @@ class ZKLibrary {
 		$u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6/H2h7/H2h8', substr( $this->received_data, 0, 8) );
 		$reply_id = hexdec( $u['h8'].$u['h7'] );
 		$buf = $this->createHeader($command, $chksum, $session_id, $reply_id, $command_string);
-		socket_sendto($this->socket, $buf, strlen($buf), 0, $this->ip, $this->port);
+		socket_sendto($this->socket, $buf, strlen($buf), MSG_EOR, $this->ip, $this->port);
 		try
 		{
 			socket_recvfrom($this->socket, $this->received_data, 1024, 0, $this->ip, $this->port);
 			$u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6', substr( $this->received_data, 0, 8 ) );
 			$this->session_id =  hexdec( $u['h6'].$u['h5'] );
-			return substr( $this->received_data, $offset_data );
+			return substr($this->received_data, $offset_data);
 		} 
 		catch(ErrorException $e)
 		{
@@ -314,7 +314,7 @@ class ZKLibrary {
 		}
 		catch(exception $e)
 		{
-			return False;
+			return FALSE;
 		}
 	}
 	private function getSizeUser()
@@ -723,6 +723,85 @@ class ZKLibrary {
 			return FALSE;
 		}
 	}
+	public function getUserTemplateAll($uid)
+	{
+		$template = array();
+		$j = 0;
+		for($i = 5; $i<10; $i++, $j++)
+		{
+			$template[$j] = $this->getUserTemplate($uid, $i);
+		}
+		for($i = 4; $i>=0; $i--, $j++)
+		{
+			$template[$j] = $this->getUserTemplate($uid, $i);
+		}
+		return $template; 
+	}
+	public function getUserTemplate($uid, $finger)
+	{
+		$template_data = '';
+		$this->user_data = array();
+		$command = CMD_USERTEMP_RRQ;
+		$byte1 = chr((int)($uid % 256));
+		$byte2 = chr((int)($uid >> 8));
+		$command_string = $byte1.$byte2.chr($finger);
+		$chksum = 0;
+		$session_id = $this->session_id;
+		$u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6/H2h7/H2h8', substr( $this->received_data, 0, 8) );
+		$reply_id = hexdec( $u['h8'].$u['h7'] );
+		$buf = $this->createHeader($command, $chksum, $session_id, $reply_id, $command_string);
+		socket_sendto($this->socket, $buf, strlen($buf), 0, $this->ip, $this->port);
+		try
+		{
+			socket_recvfrom($this->socket, $this->received_data, 1024, 0, $this->ip, $this->port);
+			$u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6', substr( $this->received_data, 0, 8 ) );
+			$bytes = $this->getSizeTemplate();
+			if($bytes)
+			{
+				while($bytes > 0)
+				{
+					socket_recvfrom($this->socket, $received_data, 1032, 0, $this->ip, $this->port);
+					array_push( $this->user_data, $received_data);
+					$bytes -= 1024;					
+				}
+				$this->session_id =  hexdec( $u['h6'].$u['h5'] );
+				socket_recvfrom($this->socket, $received_data, 1024, 0, $this->ip, $this->port);
+			}
+			$template_data = array();
+			if(count($this->user_data) > 0)
+			{
+				for($x=0; $x<count($this->user_data); $x++)
+				{
+					if ($x == 0)
+					{
+						$this->user_data[$x] = substr($this->user_data[$x], 8);
+					}
+					else
+					{
+						$this->user_data[$x] = substr($this->user_data[$x], 8);
+					}
+				}
+				$user_data = implode('', $this->user_data);
+				$template_size = strlen($user_data)+6;
+				$prefix = chr($template_size%256).chr(round($template_size/256)).$byte1.$byte2.chr($finger).chr(1);
+				$user_data = $prefix.$user_data;
+				if(strlen($user_data) > 6)
+				{
+					$valid = 1;
+					$template_data = array($template_size, $uid, $finger, $valid, $user_data);
+				}
+			}
+			return $template_data;
+		} 
+		catch(ErrorException $e) 
+		{
+			return FALSE;
+		} 
+		catch(exception $e) 
+		{
+			return FALSE;
+		}
+	}
 	public function getUserData()
 	{
 		$uid = 1;
@@ -778,7 +857,7 @@ class ZKLibrary {
 		} 
 		catch(exception $e) 
 		{
-			return False;
+			return FALSE;
 		}
 	}
 	public function setUser($uid, $userid, $name, $password, $role)
@@ -796,6 +875,35 @@ class ZKLibrary {
 		$byte2 = chr((int)($uid >> 8));
 		$command_string = $byte1.$byte2.chr($role).str_pad($password, 8, chr(0)).str_pad($name, 28, chr(0)).str_pad(chr(1), 9, chr(0)).str_pad($userid, 8, chr(0)).str_repeat(chr(0),16);
 		return $this->execCommand($command, $command_string);
+	}
+	public function setUserTemplate($data)
+	{
+		$command = CMD_USERTEMP_WRQ;
+		$command_string = $data;
+		//$length = ord(substr($command_string, 0, 1)) + ord(substr($command_string, 1, 1))*256;
+		return $this->execCommand($command, $command_string);
+		/*
+		$chksum = 0;
+		$session_id = $this->session_id;
+		$u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6/H2h7/H2h8', substr( $this->received_data, 0, 8) );
+		$reply_id = hexdec( $u['h8'].$u['h7'] );
+		$buf = $this->createHeader($command, $chksum, $session_id, $reply_id, $command_string);
+		socket_sendto($this->socket, $buf, strlen($buf), 0, $this->ip, $this->port);
+		try 
+		{
+			$u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6', substr( $this->received_data, 0, 8 ) );
+			$this->session_id = hexdec( $u['h6'].$u['h5'] );
+			return substr( $this->received_data, 8 );
+		} 
+		catch(ErrorException $e) 
+		{
+			return FALSE;
+		} 
+		catch(exception $e) 
+		{
+			return FALSE;
+		}
+		*/
 	}
 	public function clearData()
 	{
@@ -822,86 +930,6 @@ class ZKLibrary {
 		$byte2 = chr((int)($uid >> 8));
 		$command_string = $byte1.$byte2.chr($finger);
 		return $this->execCommand($command, $command_string);
-	}
-	public function getUserTemplateAll($uid)
-	{
-		$template = array();
-		$j = 0;
-		for($i = 5; $i<10; $i++, $j++)
-		{
-			$template[$j] = $this->getUserTemplate($uid, $i);
-		}
-		for($i = 4; $i>=0; $i--, $j++)
-		{
-			$template[$j] = $this->getUserTemplate($uid, $i);
-		}
-		return $template; 
-	}
-	public function getUserTemplate($uid, $finger)
-	{
-		$this->user_data = array();
-		$command = CMD_USERTEMP_RRQ;
-		$byte1 = chr((int)($uid % 256));
-		$byte2 = chr((int)($uid >> 8));
-		$command_string = $byte1.$byte2.chr($finger);
-
-		$chksum = 0;
-		$session_id = $this->session_id;
-		$u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6/H2h7/H2h8', substr( $this->received_data, 0, 8) );
-		$reply_id = hexdec( $u['h8'].$u['h7'] );
-		$buf = $this->createHeader($command, $chksum, $session_id, $reply_id, $command_string);
-		socket_sendto($this->socket, $buf, strlen($buf), 0, $this->ip, $this->port);
-		try
-		{
-			socket_recvfrom($this->socket, $this->received_data, 1024, 0, $this->ip, $this->port);
-			$u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6', substr( $this->received_data, 0, 8 ) );
-			$bytes = $this->getSizeTemplate();
-			if($bytes)
-			{
-				while($bytes > 0)
-				{
-					socket_recvfrom($this->socket, $received_data, 1032, 0, $this->ip, $this->port);
-					array_push( $this->user_data, $received_data);
-					$bytes -= 1024;					
-				}
-				$this->session_id =  hexdec( $u['h6'].$u['h5'] );
-				socket_recvfrom($this->socket, $received_data, 1024, 0, $this->ip, $this->port);
-			}
-			$template_data = array();
-			if(count($this->user_data) > 0)
-			{
-				for($x=0; $x<count($this->user_data); $x++)
-				{
-					if ($x == 0)
-					{
-						$this->user_data[$x] = substr($this->user_data[$x], 8);
-					}
-					else
-					{
-						$this->user_data[$x] = substr($this->user_data[$x], 8);
-					}
-				}
-				$user_data = implode('', $this->user_data);
-				$template_size = strlen($user_data)+6;
-				$prefix = chr($template_size%256).chr(round($template_size/256)).$byte1.$byte2.chr($finger).chr(1);
-				$user_data = $prefix.substr($user_data, 0);
-				
-				if(strlen($user_data) > 6)
-				{
-					$valid = 1;
-					$template_data = array($template_size, $uid, $finger, $valid, $user_data);
-				}
-			}
-			return $template_data;
-		} 
-		catch(ErrorException $e) 
-		{
-			return FALSE;
-		} 
-		catch(exception $e) 
-		{
-			return FALSE;
-		}
 	}
 	public function clearAdmin()
 	{
