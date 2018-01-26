@@ -5,6 +5,8 @@ Web server must be connected to the attendance device via Local Area Network (LA
 
 The format of the data are: binary, string, and number. The length of the parameter and return value must be vary.
 
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](DMHFJ6LR7FGQS)
+
 ## Example
 ```php
 <?php
