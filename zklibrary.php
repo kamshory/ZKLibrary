@@ -860,7 +860,7 @@ class ZKLibrary {
 			return FALSE;
 		}
 	}
-	public function setUser($uid, $userid, $name, $password, $role)
+	public function setUser($uid, $userid, $name, $cardno, $password, $role)
 	{
 		$uid = (int) $uid;
 		$role = (int) $role;
@@ -873,7 +873,11 @@ class ZKLibrary {
 		$command = CMD_USER_WRQ;
 		$byte1 = chr((int)($uid % 256));
 		$byte2 = chr((int)($uid >> 8));
-		$command_string = $byte1.$byte2.chr($role).str_pad($password, 8, chr(0)).str_pad($name, 28, chr(0)).str_pad(chr(1), 9, chr(0)).str_pad($userid, 8, chr(0)).str_repeat(chr(0),16);
+		//$command_string = $byte1.$byte2.chr($role).str_pad($password, 8, chr(0)).str_pad($name, 28, chr(0)).str_pad(chr(1), 9, chr(0)).str_pad($userid, 8, chr(0)).str_repeat(chr(0),16);
+		
+		$cardno = hex2bin($this->reverseHex(dechex($cardno)));
+		$command_string = $byte1.$byte2.chr($role).str_pad($password, 8, chr(0)).str_pad($name, 24, chr(0)).str_pad($cardno, 4, chr(0)).str_pad(chr(1), 9, chr(0)).str_pad($userid, 8, chr(0)).str_repeat(chr(0),16);
+
 		return $this->execCommand($command, $command_string);
 	}
 	public function setUserTemplate($data)
