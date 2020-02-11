@@ -10,7 +10,7 @@ The format of the data are: binary, string, and number. The length of the parame
 ## Example
 ```php
 <?php
-include "zklibrary.php";
+require 'zklibrary.php';
 $zk = new ZKLibrary('192.168.1.102', 4370);
 $zk->connect();
 $zk->disableDevice();
