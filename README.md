@@ -21,35 +21,37 @@ $zk->disconnect();
 ?>
 ```
 
-
 ---
-
 
 ## Data Structrure
 ```php
-Class ZKLibrary{
-String ip;
-Unsigned Short port;
-Unsigned Long socket;
-Unigned Long session_id;
-String received_data;
-String user_data[][];
-String attendance_data[][];
-Unsigned Long timeout_sec;
-Unsigned Long timeout_usec;
+Class ZKLibrary {
+    String ip;
+    Unsigned Short port;
+    Unsigned Long socket;
+    Unigned Long session_id;
+    String received_data;
+    String user_data[][];
+    String attendance_data[][];
+    Unsigned Long timeout_sec;
+    Unsigned Long timeout_usec;
 }
 ```
+
 ## Functions
+
 ```php
 __construct([$ip[, $port]])
 ```
 Object constructor.
+
 #### Parameters
-$ip 
+
+$ip
 
 IP address of device.
 
-$port 
+$port
 
 UDP port of device.
 
@@ -66,7 +68,9 @@ Object destructor.
 connect([$ip[, $port]])
 ```
 Function to make a connection to the device. If IP address and port is not defined yet, this function must take it. Else, this function return FALSE and does not make any connection.
+
 #### Parameters
+
 $ip
 
 IP address of the device.
@@ -88,7 +92,9 @@ Function to disconnect from the device. If ip address and port is not defined ye
 setTimeout([$sec[, $usec]])
 ```
 Set timeout for socket connection.
+
 #### Parameters
+
 $sec
 
 Timeout in second.
@@ -110,11 +116,15 @@ Reverse hexadecimal digits.
 encodeTime($time)
 ```
 Encode time to binary data.
+
 #### Paramaters
+
 $time
 
 String time in format YYYY-MM-DD HH:II:SS
+
 #### Return Value
+
 Encoded time in binary format.
 
 ---
@@ -123,11 +133,15 @@ Encoded time in binary format.
 decodeTime($data)
 ```
 Decode binary data to time.
+
 #### Parameters
+
 $data
 
 Binary data from device. 
+
 #### Return Value
+
 Dedoded time in string format.
 
 ---
@@ -136,7 +150,9 @@ Dedoded time in string format.
 checkSum($p)
 ```
 This function calculates the chksum of the packet to be sent to the time clock.
+
 #### Parameters
+
 $p
 
 Packet to be checked.
@@ -147,11 +163,15 @@ Packet to be checked.
 createHeader($command, $chksum, $session_id, $reply_id, $command_string)
 ```
 Create data header to be sent to the device.
+
 #### Parameters
+
 $command
 
 Command to the device in integer.
+
 #### Return Value
+
 Data header in binary format.
 
 ---
@@ -168,7 +188,9 @@ Session ID of the connection.
 $command_string
 
 Data to be sent to the device.
+
 #### Return Value
+
 Sum of data to be checked.
 
 ---
@@ -177,7 +199,9 @@ Sum of data to be checked.
 checkValid($reply)
 ```
 Check wether reply is valid or not.
+
 #### Parameters
+
 $reply
 
 Reply data to be checked.
@@ -188,7 +212,9 @@ Reply data to be checked.
 execCommand($command, $command_string = '', $offset_data = 8)
 ```
 Send command and data packet to the device and receive some data if any.
+
 #### Parameters
+
 $command
 
 Command to the device in integer.
@@ -207,7 +233,9 @@ Offset data to be returned. The default offset is 8.
 getSizeUser()
 ```
 Get number of user.
+
 #### Return Value
+
 Number of registered user in the device.
 
 ---
@@ -216,7 +244,9 @@ Number of registered user in the device.
 getSizeAttendance()
 ```
 Get number of attendance log.
+
 #### Return Value
+
 Number of attendance recorded in the device.
 
 ---
@@ -253,7 +283,9 @@ Resume the device.
 changeSpeed($speed = 0)
 ```
 Change transfer speed of the device. 0 = slower. 1 = faster.
+
 #### Parameters
+
 $speed
 
 Transfer speed of packet when the device comunicate to other device, i.e server.
@@ -266,7 +298,9 @@ Note: some device may be not supported fast speed.
 writeLCD($rank, $text)
 ```
 Write text on LCD. This order transmit character to demonstrate on LCD, the data part 1, 2 bytes of the packet transmit the rank value which start to demonstrate, the 3rd byte setting is 0 , follows close the filling character which want to be transmit. May work in CMD_CLEAR_LCD when use this function.
+
 #### Parameters
+
 $rank
 
 Line number.
@@ -295,7 +329,9 @@ Test voice of the device.
 getVersion()
 ```
 Get device version.
+
 #### Return Value
+
 Version of the device in string format.
 
 ---
@@ -304,7 +340,9 @@ Version of the device in string format.
 getOSVersion($net = true)
 ```
 Get OS version.
+
 #### Parameters
+
 $net
 
 If net set to true, function will return netto data without parameter name.
