@@ -38,6 +38,7 @@ define('CMD_CANCELCAPTURE', 62);
 define('CMD_STATE_RRQ', 64);
 define('CMD_WRITE_LCD', 66);
 define('CMD_CLEAR_LCD', 67);
+define('CMD_GET_PINWIDTH', 69 );
 
 define('CMD_GET_TIME', 201);
 define('CMD_SET_TIME', 202);
@@ -476,7 +477,7 @@ class ZKLibrary
 
     public function getSSR($net = true)
     {
-        $command = CMD_OPTIONS_PRQ;
+        $command = CMD_OPTIONS_RRQ;
         $command_string = '~SSR';
         $return = $this->execCommand($command, $command_string);
         if ($net) {
@@ -494,10 +495,10 @@ class ZKLibrary
         return $this->execCommand($command, $command_string);
     }
 
-    public function getPinWidth()
+    public function getPinWidth($net = true)
     {
         $command = CMD_GET_PINWIDTH;
-        $command = CMD_OPTIONS_PRQ;
+        $command = CMD_OPTIONS_RRQ;
         $command_string = '~PIN2Width';
         $return = $this->execCommand($command, $command_string);
         if ($net) {
