@@ -1,11 +1,9 @@
 # ZKLibrary
-ZKLibrary is PHP Library for ZK Time & Attendance Devices. This library is design to reading and writing data to attendance device (fingerprint, face recognition or RFID) using UDP protocol. This library is useful to comunicate between web server and attendance device directly without any addition program. This library is implemented in the form of class. So that you can create an object and use it functions.
+ZKLibrary is a PHP Library for ZK Time & Attendance Devices. This library is designed to read and write data to attendance devices (fingerprint, face recognition, or RFID) using the UDP protocol. It enables direct communication between a web server and an attendance device without any additional programs. The library is implemented as a class, allowing you to create an object and use its functions.
 
-Web server must be connected to the attendance device via Local Area Network (LAN). The UDP port that is used in this communication is 4370. You can not change this port without changing firmware of the attendance device. So, you just use it.
+The web server must be connected to the attendance device via a Local Area Network (LAN). The UDP port used for this communication is **4370**. This port generally cannot be changed without modifying the device's firmware.
 
-The format of the data are: binary, string, and number. The length of the parameter and return value must be vary.
-
-Visit our website https://www.planetbiru.com/produk/zklibrary.html for more information.
+For more information, visit our website: [https://www.planetbiru.com/produk/zklibrary.html](https://www.planetbiru.com/produk/zklibrary.html)
 
 ---
 
@@ -31,13 +29,13 @@ $zk->disconnect();
 
 ---
 
-## Data Structrure
+## Data Structure
 ```php
 Class ZKLibrary {
     String ip;
     Unsigned Short port;
     Unsigned Long socket;
-    Unigned Long session_id;
+    Unsigned Long session_id;
     String received_data;
     String user_data[][];
     String attendance_data[][];
